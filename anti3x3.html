@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Detector Anti 3x3</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f4f4f4;
+      padding: 40px 20px;
+      text-align: center;
+    }
+    h1 {
+      color: #222;
+    }
+    input {
+      padding: 12px;
+      margin: 10px;
+      width: 250px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+    button {
+      padding: 12px 25px;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    #resultado {
+      margin-top: 30px;
+      padding: 20px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Detector Anti 3x3</h1>
+  <p>Evite jogos perigosos no mercado de Resultado Correto</p>
+
+  <input type="text" id="timeA" placeholder="Nome do Time A" />
+  <input type="text" id="timeB" placeholder="Nome do Time B" /><br>
+  <button onclick="analisarJogo()">Analisar Jogo</button>
+
+  <div id="resultado"></div>
+
+  <script>
+    function analisarJogo() {
+      const timeA = document.getElementById("timeA").value.trim();
+      const timeB = document.getElementById("timeB").value.trim();
+      const resultadoDiv = document.getElementById("resultado");
+
+      if (!timeA || !timeB) {
+        alert("Por favor, insira os dois times.");
+        return;
+      }
+
+      const nomesLoucos = ["Atletico", "Juventude", "Al Ahly", "River", "Boca", "PSG", "Al Nassr"];
+      const golsTimeA = Math.floor(Math.random() * 4);
+      const golsTimeB = Math.floor(Math.random() * 4);
+      const riscoBase = (golsTimeA + golsTimeB) / 6;
+
+      let risco = riscoBase;
+
+      nomesLoucos.forEach(nome => {
+        if (timeA.includes(nome) || timeB.includes(nome)) {
+          risco += 0.2;
+        }
+      });
+
+      let mensagem, cor;
+
+      if (risco < 0.4) {
+        mensagem = "Jogo muito seguro. Risco de 3x3 extremamente baixo.";
+        cor = "green";
+      } else if (risco < 0.7) {
+        mensagem = "Jogo com risco moderado. Recomendado cuidado.";
+        cor = "orange";
+      } else {
+        mensagem = "ALERTA! Risco elevado de jogo fora do padrão (3x3 ou similar). Evite entrada.";
+        cor = "red";
+      }
+
+      resultadoDiv.innerHTML = `
+        <h2 style="color: ${cor};">${timeA} x ${timeB}</h2>
+        <p style="color: ${cor}; font-size: 18px;">${mensagem}</p>
+      `;
+      resultadoDiv.style.display = "block";
+    }
+  </script>
+
+</body>
+</html>
